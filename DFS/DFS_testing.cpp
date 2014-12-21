@@ -64,6 +64,7 @@ TEST(correctness, graph_file) {
     g.addEdge(1, 3);
     g.addEdge(1, 4);
     g.addEdge(4, 3);
+    g.addEdge(4, 2);
     g[1] = 51;
     g[2] = 4;
     g[4] = 123;

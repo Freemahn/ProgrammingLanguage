@@ -27,7 +27,7 @@ public:
     // Run custom function for each edge.
     NodeHandle move(NodeHandle const &origin, EdgeHandle const &edge); // Move from selected node in selected direction edge. Return ending node.
     NodePayload &operator[](NodeHandle const &node); // Return payload of selected node.
-    void dfs(NodeVisitor const & startNode, NodeVisitor const & endNode, NodeVisitor const & discoverNode); // Run dfs from startNode to endNode and for each visited node runs function discoverNode
+    void dfs(NodeVisitor const &startNode, NodeVisitor const &endNode, NodeVisitor const &discoverNode); // Run dfs from startNode to endNode and for each visited node runs function discoverNode
 private:
     std::vector<NodePayload> nodePayloads;
     std::vector<std::vector<NodeHandle> > graph;
@@ -73,7 +73,7 @@ void Graph<NodePayload>::forEachEdge(Graph::EdgeVisitor const &visitor) {
         for (unsigned j = 0; j < getNodesCount(); ++j) {
             if (graph[i][j] == 1) {
                 EdgeHandle edgeHandle;
-                edgeHandle.first = i,edgeHandle.second = j;
+                edgeHandle.first = i, edgeHandle.second = j;
                 visitor(edgeHandle);
             }
         }
@@ -93,13 +93,13 @@ void Graph<NodePayload>::dfs(Graph::NodeVisitor const &startNode,
         std::pair<int, int> p = st.top();
         st.pop();
         if (p.second == IN) {
-           // std::cout << "start " << p.first << std::endl;
+            // std::cout << "start " << p.first << std::endl;
             startNode(p.first);
             std::vector<int> temp;
             st.push(std::make_pair(p.first, OUT));
             for (int i = 0; i < n; ++i) {
                 if (graph[p.first][i]) {
-                   // std::cout << "discover " << i << std::endl;
+                    // std::cout << "discover " << i << std::endl;
                     discoverNode(i);
                     temp.push_back(i);
                 }
@@ -112,7 +112,7 @@ void Graph<NodePayload>::dfs(Graph::NodeVisitor const &startNode,
         }
         else {
             used[p.first] = OUT;
-           // std::cout << "end " << p.first << std::endl;
+            // std::cout << "end " << p.first << std::endl;
             endNode(p.first);
         }
     }
@@ -122,6 +122,49 @@ void Graph<NodePayload>::dfs(Graph::NodeVisitor const &startNode,
 template<typename NodePayload>
 typename Graph<NodePayload>::NodeHandle Graph<NodePayload>::move(Graph<NodePayload>::NodeHandle const &origin, Graph<NodePayload>::EdgeHandle const &edge) {
     return origin == edge.first ? edge.second : edge.first;
+}
+
+template<typename NodePayload>
+void Graph<NodePayload>::loadFromFile(std::string const &filename) {
+
+    std::ifstream fin;
+    fin.open(filename);
+    unsigned n = 0;
+    fin >> n;
+    nodePayloads.resize(n);
+    for (int i = 0; i < n; ++i)
+        fin >> nodePayloads[i];
+    graph.resize(n);
+    for (int i = 0; i < n; ++i) {
+        graph[i].resize(n);
+        for (int j = 0; j < n; ++j) {
+            fin >> graph[i][j];
+        }
+    }
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < n; ++j) {
+            std::cout << graph[i][j] << " ";
+        }
+        std::cout << std::endl;
+    }
+    fin.close();
+}
+
+template<typename NodePayload>
+void Graph<NodePayload>::saveToFile(std::string const &filename) {
+    std::ofstream fout(filename);
+    fout << getNodesCount() << "\n";
+    for (int i = 0; i < getNodesCount(); ++i)
+        fout << nodePayloads[i] << " ";
+    fout << "\n";
+    for (int i = 0; i < getNodesCount(); ++i) {
+        for (int j = 0; j < getNodesCount(); ++j) {
+            fout << graph[i][j] << " ";
+        }
+        fout << "\n";
+    }
+    fout.close();
+
 }
 
 #endif

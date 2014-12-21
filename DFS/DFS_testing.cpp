@@ -52,4 +52,25 @@ TEST(correctness, graph_payload_Test) {
     EXPECT_TRUE(g[2] == 5);
 
 }
+TEST(correctness, graph_file) {
+    Graph<int> g;
+    g.addNode();
+    g.addNode();
+    g.addNode();
+    g.addNode();
+    g.addNode();
+    g.addEdge(0, 1);
+    g.addEdge(1, 2);
+    g.addEdge(1, 3);
+    g.addEdge(1, 4);
+    g.addEdge(4, 3);
+    g[1] = 51;
+    g[2] = 4;
+    g[4] = 123;
+    g.saveToFile("imafile.txt");
+    Graph<int> g2;
+    g2.loadFromFile("imafile.txt");
+    EXPECT_TRUE(g.getNodesCount() == g2.getNodesCount());
+
+}
 

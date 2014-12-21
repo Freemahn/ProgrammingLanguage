@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 void MainWindow::on_login_btn_clicked()
 {
-    name = nickname_edit->text().trimmed();
+    name = nickname_edit->text();
     chat_log->append("<" + name + "> " + " online");
 }
 
@@ -24,10 +24,9 @@ void MainWindow::readyRead() {
         quint16 port;
         socket->readDatagram(buffer.data(), buffer.size(), &sender, &port);
         QString line = QString::fromUtf8(buffer).trimmed();
-        QRegExp messageRegex("^([^:]+):*$");
+        QRegExp messageRegex("^([^:]+):(.*)$");
         if (messageRegex.indexIn(line) != -1) {
-            QString user = messageRegex.cap(1).trimmed();
-
+            QString user = messageRegex.cap(1);
             QString message = messageRegex.cap(2);
             bool newbee = true;
             for (int i = 0; i < listWidget->count(); i++)
@@ -53,7 +52,7 @@ void MainWindow::on_send_btn_clicked()
             socket->writeDatagram(datagram.data(), datagram.size(), QHostAddress::Broadcast, 5555);
         }
 
-        listWidget->addItem(name);
+
         message_edit->clear();
         message_edit->setFocus();
 

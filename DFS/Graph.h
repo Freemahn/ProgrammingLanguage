@@ -37,8 +37,7 @@ template<typename NodePayload>
 typename Graph<NodePayload>::NodeHandle Graph<NodePayload>::addNode() {
     NodeHandle nodeHandle = nodePayloads.size() + 1;
     nodePayloads.push_back(0);
-    //std::vector<NodeHandle> t(nodeHandle);
-    graph.push_back(std::vector<NodeHandle>(nodeHandle));
+        graph.push_back(std::vector<NodeHandle>(nodeHandle));
     for (int i = 0; i < nodeHandle; ++i) {
         graph[i].push_back(0);
     }
@@ -79,7 +78,7 @@ void Graph<NodePayload>::forEachEdge(Graph::EdgeVisitor const &visitor) {
         }
     }
 }
-
+//run dfs for each vertex
 template<typename NodePayload>
 void Graph<NodePayload>::dfs(Graph::NodeVisitor const &startNode,
         Graph::NodeVisitor const &endNode, Graph::NodeVisitor const &discoverNode) {
@@ -93,13 +92,13 @@ void Graph<NodePayload>::dfs(Graph::NodeVisitor const &startNode,
         std::pair<int, int> p = st.top();
         st.pop();
         if (p.second == IN) {
-            // std::cout << "start " << p.first << std::endl;
+
             startNode(p.first);
             std::vector<int> temp;
             st.push(std::make_pair(p.first, OUT));
             for (int i = 0; i < n; ++i) {
                 if (graph[p.first][i]) {
-                    // std::cout << "discover " << i << std::endl;
+
                     discoverNode(i);
                     temp.push_back(i);
                 }
@@ -112,8 +111,7 @@ void Graph<NodePayload>::dfs(Graph::NodeVisitor const &startNode,
         }
         else {
             used[p.first] = OUT;
-            // std::cout << "end " << p.first << std::endl;
-            endNode(p.first);
+                        endNode(p.first);
         }
     }
 
@@ -124,6 +122,29 @@ typename Graph<NodePayload>::NodeHandle Graph<NodePayload>::move(Graph<NodePaylo
     return origin == edge.first ? edge.second : edge.first;
 }
 
+
+//saves graph to file
+//n - count of vertex
+//payloads for each vertex
+//n*n table - adjacency matrix
+template<typename NodePayload>
+void Graph<NodePayload>::saveToFile(std::string const &filename) {
+    std::ofstream fout(filename);
+    fout << getNodesCount() << "\n";
+    for (unsigned i = 0; i < getNodesCount(); ++i)
+        fout << nodePayloads[i] << " ";
+    fout << "\n";
+    for (unsigned i = 0; i < getNodesCount(); ++i) {
+        for (unsigned j = 0; j < getNodesCount(); ++j) {
+            fout << graph[i][j] << " ";
+        }
+        fout << "\n";
+    }
+    fout.close();
+
+}
+
+//load graph from file, obvious
 template<typename NodePayload>
 void Graph<NodePayload>::loadFromFile(std::string const &filename) {
 
@@ -132,39 +153,24 @@ void Graph<NodePayload>::loadFromFile(std::string const &filename) {
     unsigned n = 0;
     fin >> n;
     nodePayloads.resize(n);
-    for (int i = 0; i < n; ++i)
+    for (unsigned i = 0; i < n; ++i)
         fin >> nodePayloads[i];
     graph.resize(n);
-    for (int i = 0; i < n; ++i) {
+    for (unsigned i = 0; i < n; ++i) {
         graph[i].resize(n);
-        for (int j = 0; j < n; ++j) {
+        for (unsigned j = 0; j < n; ++j) {
             fin >> graph[i][j];
         }
     }
-    for (int i = 0; i < n; ++i) {
-        for (int j = 0; j < n; ++j) {
+    //for checking of correctness load graph
+    /*for (unsigned i = 0; i < n; ++i) {
+        for (unsigned j = 0; j < n; ++j) {
             std::cout << graph[i][j] << " ";
         }
         std::cout << std::endl;
-    }
+    }*/
     fin.close();
 }
 
-template<typename NodePayload>
-void Graph<NodePayload>::saveToFile(std::string const &filename) {
-    std::ofstream fout(filename);
-    fout << getNodesCount() << "\n";
-    for (int i = 0; i < getNodesCount(); ++i)
-        fout << nodePayloads[i] << " ";
-    fout << "\n";
-    for (int i = 0; i < getNodesCount(); ++i) {
-        for (int j = 0; j < getNodesCount(); ++j) {
-            fout << graph[i][j] << " ";
-        }
-        fout << "\n";
-    }
-    fout.close();
-
-}
 
 #endif

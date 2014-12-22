@@ -2,6 +2,7 @@
 #include <gtest/gtest.h>
 #include "Graph.h"
 
+int count = -1;//we will need this later in test
 void discoverNode(unsigned a) {
     std::cout << "discover " << a << std::endl;
 }
@@ -9,12 +10,20 @@ void discoverNode(unsigned a) {
 void startNode(unsigned a) {
     std::cout << "start " << a << std::endl;
 }
-
 void endNode(unsigned a) {
     std::cout << "end " << a << std::endl;
 }
 
-TEST(correctness, graph_addNode_Test) {
+//stub
+void discoverNode2(unsigned a) {
+}
+
+void startNode2(unsigned a) {
+}
+void endNode2(unsigned a) {
+    count++;
+}
+TEST(graph, addNode) {
     Graph<int> g;
     g.addNode();
     g.addNode();
@@ -25,7 +34,7 @@ TEST(correctness, graph_addNode_Test) {
 
 }
 
-TEST(correctness, graph_dfs_Test) {
+TEST(graph, dfsTest) {
     Graph<int> g;
     g.addNode();
     g.addNode();
@@ -42,7 +51,7 @@ TEST(correctness, graph_dfs_Test) {
 }
 
 
-TEST(correctness, graph_payload_Test) {
+TEST(graph, payload) {
     Graph<int> g;
     g.addNode();
     g.addNode();
@@ -52,7 +61,7 @@ TEST(correctness, graph_payload_Test) {
     EXPECT_TRUE(g[2] == 5);
 
 }
-TEST(correctness, graph_file) {
+TEST(graph, fileSaveLoad) {
     Graph<int> g;
     g.addNode();
     g.addNode();
@@ -72,6 +81,25 @@ TEST(correctness, graph_file) {
     Graph<int> g2;
     g2.loadFromFile("imafile.txt");
     EXPECT_TRUE(g.getNodesCount() == g2.getNodesCount());
+
+}
+
+//run dfs to "big" complete graph
+TEST(graph, bigGraphDfs) {
+    Graph<int> g;
+    unsigned n=100;//vertex count
+    for (unsigned i = 0; i < n; ++i) {
+        g.addNode();
+    }
+    for (unsigned j = 0; j < n; ++j) {
+        for (unsigned i = 0; i < j; ++i) {
+            g.addEdge(i,j);
+        }
+    }
+    unsigned rightAnswer = (n*(n-1))/2;//for complete graph
+    g.dfs(startNode2,endNode2,discoverNode2);
+    EXPECT_EQ(count,rightAnswer);
+
 
 }
 

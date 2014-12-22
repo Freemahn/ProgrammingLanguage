@@ -16,7 +16,7 @@ TEST(correctness, zeros)
     EXPECT_TRUE(a == b);
 
 }
-TEST(correctness, two_plus_two)
+TEST(correctness, twoPlusTwo)
 {
     EXPECT_EQ(BigInteger(2) + BigInteger(2), BigInteger(4));
 
@@ -28,7 +28,7 @@ TEST(correctness, zero)
     EXPECT_EQ(a, b);
 
 }
-TEST(correctness, assignment_operator)
+TEST(correctness, assignmentOperator)
 {
     BigInteger a = 4;
     BigInteger b = 7;
@@ -36,14 +36,14 @@ TEST(correctness, assignment_operator)
 
     EXPECT_TRUE(a == b);
 }
-TEST(correctness, self_assignment)
+TEST(correctness, selfAssignment)
 {
     BigInteger a = 5;
     a = a;
 
     EXPECT_TRUE(a == 5);
 }
-TEST(correctness, assignment_return_value)
+TEST(correctness, assignmentReturnValue)
 {
     BigInteger a = 4;
     BigInteger b = 7;
@@ -52,7 +52,7 @@ TEST(correctness, assignment_return_value)
     EXPECT_TRUE(a == 7);
     EXPECT_TRUE(b == 7);
 }
-TEST(correctness, compare_zero_and_minus_zero)
+TEST(correctness, compareZeroAndMinusZero)
 {
     BigInteger a(0);
     BigInteger b = BigInteger(-1)*a;
@@ -69,7 +69,7 @@ TEST(correctness, add)
 
 }
 
-TEST(correctness, add_signed)
+TEST(correctness, addSigned)
 {
     BigInteger a = 5;
     BigInteger b = -20;
@@ -87,7 +87,7 @@ TEST(correctness, sub)
 
 }
 
-TEST(correctness, sub_signed)
+TEST(correctness, subSigned)
 {
     BigInteger a = 5;
     BigInteger b = 20;
@@ -98,7 +98,7 @@ TEST(correctness, sub_signed)
     a =a- -100;
     EXPECT_TRUE(a == 85);
 }
-TEST(correctness, plus_eq)
+TEST(correctness, plusEq)
 {
     BigInteger a = 5;
     a+=15;
@@ -106,7 +106,7 @@ TEST(correctness, plus_eq)
     EXPECT_TRUE(a == BigInteger(20));
 
 }
-TEST(correctness, minus_eq)
+TEST(correctness, minusEq)
 {
     BigInteger a = 5;
     a-=15;
@@ -114,7 +114,7 @@ TEST(correctness, minus_eq)
     EXPECT_TRUE(a == BigInteger(-10));
 
 }
-TEST(correctness, mul_eq)
+TEST(correctness, mulEq)
 {
     BigInteger a = 5;
     a*=15;
@@ -138,15 +138,7 @@ TEST(correctness, eq)
     a = BigInteger(-0);
     EXPECT_TRUE(a == b);
 }
-TEST(correctness, mul1)
-{
-    BigInteger a = 71;
-    BigInteger b = 4;
-
-    EXPECT_TRUE(a * b == BigInteger(284));
-
-}
-TEST(correctness, mul2)
+TEST(correctness, mul)
 {
     BigInteger a = 5;
     BigInteger b = 20;
@@ -154,7 +146,15 @@ TEST(correctness, mul2)
     EXPECT_TRUE(a * b == BigInteger(100));
 
 }
-TEST(correctness, mul_signed)
+TEST(correctness, mulSigned)
+{
+    BigInteger a = 5;
+    BigInteger b = -20;
+
+    EXPECT_TRUE(a * b == BigInteger(-100));
+
+}
+TEST(correctness, constructor)
 {
     BigInteger a = BigInteger("1000");
     BigInteger b = BigInteger(1000);
@@ -163,7 +163,7 @@ TEST(correctness, mul_signed)
 
 }
 
-TEST(correctness, add_long)
+TEST(correctness, addLong)
 {
     BigInteger a("1000000000000000000000000000000000000000000000000000000000000000000000000000000000000");
     BigInteger b(                                                     "10000000000000000000000000000000");
@@ -172,7 +172,7 @@ TEST(correctness, add_long)
     EXPECT_EQ(a + b, c);
 }
 
-TEST(correctness, add_long_signed)
+TEST(correctness, addLongSigned)
 {
     BigInteger a("-10000000000000000000000000000000000000000000000000000000000000000");
     BigInteger b( "10000000000000000000000000000000000000000000000000000000000000000");
@@ -180,7 +180,7 @@ TEST(correctness, add_long_signed)
     EXPECT_EQ(a + b, 0);
 }
 
-TEST(correctness, add_long_signed2)
+TEST(correctness, addLongSigned2)
 {
     BigInteger a("-100000000000000000000000000000000000000000000000000000000000000000000000000000000000");
     BigInteger b(                                                     "10000000000000000000000000000000");
@@ -189,14 +189,14 @@ TEST(correctness, add_long_signed2)
     EXPECT_EQ(a + b, c);
 }
 
-TEST(correctness, add_long_pow2)
+TEST(correctness, addLongPow2)
 {
     BigInteger a( "18446744073709551616");
     BigInteger b( "36893488147419103232");
 
     EXPECT_EQ(a + a, b);
 }
-TEST(correctness, add_long_pow3)
+TEST(correctness, addLongPow3)
 {
     BigInteger a( "18446744073709551616");
     BigInteger b("-18446744073709551616");
@@ -205,7 +205,7 @@ TEST(correctness, add_long_pow3)
     EXPECT_EQ(b + c, a);
 }
 
-TEST(correctness, sub_long)
+TEST(correctness, subLong)
 {
     BigInteger a("1000000000000000000000000000000000000000000000000000000000000000000000000000");
     BigInteger b(                                                     "10000000000000000000000");
@@ -214,7 +214,7 @@ TEST(correctness, sub_long)
     EXPECT_EQ(a - b, c);
 }
 
-TEST(correctness, mul_long)
+TEST(correctness, mulLong)
 {
     BigInteger a("100000000000000000000000000000000000000000000000000000000000000000000000000000000000000");
     BigInteger b(                                                     "1000000000000000000000000000000000");
@@ -224,12 +224,12 @@ TEST(correctness, mul_long)
     EXPECT_EQ(a * b, c);
 }
 
-TEST(correctness, mul_long_signed)
+TEST(correctness, mulLongSigned)
 {
     BigInteger a("-100000000000000000000000000000000000000000000000000000000000000000000000000000000000000");
     BigInteger b(                                                     "10000000000000000000000000000000000");
     BigInteger c("-100000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
-            "0000000000000000000000000000000000f");
+            "0000000000000000000000000000000000");
 
     EXPECT_EQ(a * b, c);
 }

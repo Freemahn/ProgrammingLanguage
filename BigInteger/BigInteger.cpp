@@ -73,7 +73,6 @@ std::vector<unsigned> sub(std::vector<unsigned> a, std::vector<unsigned> b) {
 //multiplies vector and int digit,b =0..9
 std::vector<unsigned> mul(std::vector<unsigned> a, int b, int n) {
     vector<unsigned> result;
-    //result.assign(a.size(), 0);
     if (b == 0) return result;
     int remain = 0, r = 0;
     for (unsigned i = 0; i < a.size(); ++i) {
@@ -150,6 +149,7 @@ BigInteger &BigInteger::operator-(BigInteger const &right) {
         if (as < bs)a.push_back(0);
         if (bs < as)b.push_back(0);
     }
+    //find min and max
     bool aLessThanB = false;
     for (int i = a.size() - 1; i >= 0; --i) {
         if (a[i] != b[i]) {
@@ -157,6 +157,7 @@ BigInteger &BigInteger::operator-(BigInteger const &right) {
             break;
         }
     }
+
     if (aLessThanB) {
         vector<unsigned> v = b;
         b = a;

@@ -8,7 +8,7 @@
 /// Useful functions to implement poker rules
 namespace Rules {
 	/// Mask for getCombinationRank result indicating best found cobbination.
-	/// LSB used to rank diffirent combinations of same type
+	/// LSB used to rank different combinations of same type
 	enum Combinations {
 		StraightFlush	= 0x09000000,
 		Quads			= 0x08000000,

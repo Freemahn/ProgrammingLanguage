@@ -6,7 +6,7 @@
 #include "Card.h"
 
 // Forward declarations
-class Player;
+class Player{};
 
 /// Payer hand representation
 class Hand {

@@ -13,8 +13,7 @@ public:
 
     BigInteger(BigInteger const &other) = default;
 
-    //BigInteger(BigInteger && other) = default;
-    BigInteger(BigInteger &&other);
+    BigInteger(BigInteger && other) = default;
 
     BigInteger(int);
 
@@ -40,7 +39,7 @@ public:
 
 private:
     std::vector<unsigned> digits;
-    bool sign;
+    bool sign;//true for negative number, false for pozitive or zero
 };
 
 std::string to_string(BigInteger const &a);

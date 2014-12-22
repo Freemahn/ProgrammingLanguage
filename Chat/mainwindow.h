@@ -22,6 +22,8 @@ private slots:
     void on_login_btn_clicked();
     void readyRead();
 
+    void on_message_edit_returnPressed();
+
 private:
     QUdpSocket *socket;
     QString name;

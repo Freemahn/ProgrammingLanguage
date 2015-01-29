@@ -23,10 +23,12 @@ private slots:
     void readyRead();
 
     void on_message_edit_returnPressed();
+    void on_nickname_edit_returnPressed();
 
 private:
     QUdpSocket *socket;
-    QString name;
+    QString name;//user nickname
+    const int PORT=5555;
 };
 
 #endif // MAINWINDOW_H

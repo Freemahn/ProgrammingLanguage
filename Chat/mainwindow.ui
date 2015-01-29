@@ -18,7 +18,7 @@
     <property name="geometry">
      <rect>
       <x>13</x>
-      <y>50</y>
+      <y>70</y>
       <width>331</width>
       <height>191</height>
      </rect>
@@ -71,6 +71,9 @@
     </property>
     <property name="toolTip">
      <string>DEFAULT NICKNAME</string>
+    </property>
+    <property name="text">
+     <string>DEFAULT</string>
     </property>
     <property name="placeholderText">
      <string>DEFAULTNICKNAME</string>

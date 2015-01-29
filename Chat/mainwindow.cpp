@@ -6,14 +6,28 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     setupUi(this);
     socket = new QUdpSocket(this);
-    socket->bind(QHostAddress::Any, 5555, QUdpSocket::ReuseAddressHint);
+    name = "DEFAULT";
+
+    socket->bind(QHostAddress::Any, PORT, QUdpSocket::ReuseAddressHint);
     connect(socket, SIGNAL(readyRead()), this, SLOT(readyRead()));
+    QByteArray datagram;
+    datagram.append(name + QString(":is online"));
+    socket->writeDatagram(datagram.data(), datagram.size(), QHostAddress::Broadcast, PORT);
 }
 
 void MainWindow::on_login_btn_clicked()
 {
-    name = nickname_edit->text();
-    chat_log->append("<" + name + "> " + " online");
+    QString new_name = nickname_edit->text().trimmed( );
+    if( new_name == "" ||new_name==name) return;
+    QByteArray datagram;
+    datagram.append(name+ QString(":is offline"));
+    socket->writeDatagram(datagram.data(), datagram.size(), QHostAddress::Broadcast, PORT);
+    name = new_name;
+    datagram.clear();
+    datagram.append(name + QString(":is online"));
+    socket->writeDatagram(datagram.data(), datagram.size(), QHostAddress::Broadcast, PORT);
+
+
 }
 
 void MainWindow::readyRead() {
@@ -34,10 +48,13 @@ void MainWindow::readyRead() {
                     newbee = false;
                     break;
                 }
-            if (newbee)
-                listWidget->addItem(user);
-
-            chat_log->append("<" + user + ">: " + message);
+            if (newbee){
+                listWidget->addItem(user);               
+            }
+            if(message == "is online"||message == "is offline")
+                chat_log->append("<" + user + "> " + message);
+            else
+                chat_log->append("<" + user + ">: " + message);
         }
     }
 }
@@ -47,13 +64,24 @@ void MainWindow::on_send_btn_clicked()
         QString message = message_edit->text().trimmed();
         if(!message.isEmpty()) {
             QByteArray datagram;
-            datagram.append(name + ":" + QString(message + "\n"));
+            datagram.append(name + QString(":") + message);
             datagram.append("\n");
-            socket->writeDatagram(datagram.data(), datagram.size(), QHostAddress::Broadcast, 5555);
+            socket->writeDatagram(datagram.data(), datagram.size(), QHostAddress::Broadcast, PORT);
         }
 
 
         message_edit->clear();
         message_edit->setFocus();
 
+}
+
+void MainWindow::on_message_edit_returnPressed()
+{
+    on_send_btn_clicked();
+
+}
+
+void MainWindow::on_nickname_edit_returnPressed()
+{
+    on_login_btn_clicked();
 }

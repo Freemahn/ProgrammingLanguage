@@ -48,8 +48,8 @@ int main() {
     pockerOn* game = newGame((uint32_t) 2,
                              (uint32_t) 100,
                              (uint32_t) 10,
-                             new playerH("Player1"),
-                             new playerH("Player2"));
+                             new playerH("FirstP"),
+                             new playerH("SecondP"));
     game->run();
     delete game;
     return 0;

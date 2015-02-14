@@ -1,21 +1,20 @@
-cmake_minimum_required(VERSION 2.8)
-project(Pocker)
+cmake_minimum_required(VERSION 2.8.4)
+project(POCKER)
+INCLUDE_DIRECTORIES(${POCKER_SOURCE_DIR})
 
-include_directories(${Pocker_SOURCE_DIR})
 
-add_executable(pocker_testing
-               pocker_testing.cpp
-                include/Card.h
-               include/Exceptions.h
-               include/Hand.h
-               include/Rules.h
-               src/Card.cpp
-               src/Player.cpp
-               src/Rules.cpp
+add_executable(poker
+              main.cpp
+              player/player.h
+              pockerController/pockerOn.h
+              pockerController/pockerOn.cpp
+              cards/cards.h cards/cards.cpp
+              player/playerHuman.h player/playerHuman.cpp
+              board/board.h board/board.cpp
+)
 
-               gtest/gtest-all.cc
-               gtest/gtest.h
-               gtest/gtest_main.cc)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -std=gnu++0x -pedantic")
-target_link_libraries(pocker_testing -lgmp -lgmpxx -lpthread)
+ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -pedantic -g -std=c++0x")
+
+
+target_link_libraries(poker)

@@ -27,7 +27,8 @@ public:
     // Run custom function for each edge.
     NodeHandle move(NodeHandle const &origin, EdgeHandle const &edge); // Move from selected node in selected direction edge. Return ending node.
     NodePayload &operator[](NodeHandle const &node); // Return payload of selected node.
-    void dfs(NodeVisitor const &startNode, NodeVisitor const &endNode, NodeVisitor const &discoverNode); // Run dfs from startNode to endNode and for each visited node runs function discoverNode
+    //run dfs and for each v runs startNode(v),endNode(v),discoverNode(v)
+    void dfs(NodeVisitor const &startNode, NodeVisitor const &endNode, NodeVisitor const &discoverNode);
 private:
     std::vector<NodePayload> nodePayloads;
     std::vector<std::vector<NodeHandle> > graph;
@@ -78,7 +79,7 @@ void Graph<NodePayload>::forEachEdge(Graph::EdgeVisitor const &visitor) {
         }
     }
 }
-//run dfs for each vertex
+//run dfs from 0-vertex, and do "discoverNode" function for each vertex
 template<typename NodePayload>
 void Graph<NodePayload>::dfs(Graph::NodeVisitor const &startNode,
         Graph::NodeVisitor const &endNode, Graph::NodeVisitor const &discoverNode) {
@@ -92,7 +93,6 @@ void Graph<NodePayload>::dfs(Graph::NodeVisitor const &startNode,
         std::pair<int, int> p = st.top();
         st.pop();
         if (p.second == IN) {
-
             startNode(p.first);
             std::vector<int> temp;
             st.push(std::make_pair(p.first, OUT));

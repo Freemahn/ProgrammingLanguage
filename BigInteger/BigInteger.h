@@ -1,7 +1,3 @@
-
-
-
-
 #include <string>
 #include <vector>
 #include <cstdint>
@@ -11,9 +7,9 @@ struct BigInteger {
 public:
     BigInteger();
 
-    BigInteger(BigInteger const &other) = default;
+    BigInteger(BigInteger const &other);
 
-    BigInteger(BigInteger && other) = default;
+    BigInteger(BigInteger &other) = default;
 
     BigInteger(int);
 
@@ -26,6 +22,7 @@ public:
     BigInteger &operator-(BigInteger const &right);
 
     BigInteger &operator*(BigInteger const &right);
+
     BigInteger &operator+=(BigInteger const &right);
 
     BigInteger &operator-=(BigInteger const &right);
@@ -34,7 +31,7 @@ public:
 
     BigInteger &operator=(BigInteger const &right) = default;
 
-    friend bool operator==(const BigInteger& left, const BigInteger& right);
+    friend bool operator==(const BigInteger &left, const BigInteger &right);
 
 
 private:

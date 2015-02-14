@@ -28,11 +28,11 @@ BigInteger::BigInteger(std::string const &str) {
         sign = true;
     else
         sign = false;
-    for (int i = str.length() - 1; i >= 0; i--){
-        if(i==0&str[0]=='-') continue;
-        if(str[i] < '0' ||str[i] >'9')
+    for (int i = str.length() - 1; i >= 0; i--) {
+        if ((i == 0 )& (str[0] == '-')) continue;
+        if (str[i] < '0' || str[i] > '9')
             throw invalid_argument("Only digits in number!");
-        digits.push_back(str[i]-'0');
+        digits.push_back(str[i] - '0');
     }
 
 }
@@ -87,7 +87,59 @@ std::vector<unsigned> mul(std::vector<unsigned> a, int b, int n) {
     }
     return result;
 }
+/*BigInteger& BigInteger::operator+(BigInteger const &right) {
+    BigInteger left(this);
 
+    if ((left).sign == right.sign) {
+        (left).digits = add((left).digits, right.digits);
+        return (left);
+    }
+    return (left);/*
+
+    vector<unsigned> a = left.digits;
+    vector<unsigned> b = right.digits;
+    for (unsigned l = 0; l < a.size(); ++l) {
+        cout << a[l];
+    }
+    cout << endl;
+    for (unsigned l = 0; l < b.size(); ++l) {
+        cout << b[l];
+    }
+    cout << endl;
+    //fill the less number to equal numbers length
+    int as = a.size();
+    int bs = b.size();
+    int t = abs(as - bs);
+    for (int j = 0; j < t; ++j) {
+        if (as < bs)a.push_back(0);
+        if (bs < as)b.push_back(0);
+    }
+    //find min and max
+    int aLessThanB = 1;
+    for (int i = a.size() - 1; i >= 0; --i) {
+        if (a[i] != b[i]) {
+            aLessThanB = a[i] < b[i] ? 0 : 2;
+            break;
+        }
+    }
+    if (aLessThanB == 1) {
+        for (unsigned k = 0; k < left.digits.size(); ++k)
+            left.digits[k] = 0;
+        left.sign = false;
+    }
+
+    else if (aLessThanB == 0) {
+        left.digits = sub(b, a);
+        left.sign = right.sign;
+    }
+    else {
+        left.digits = sub(a, b);
+    }
+
+    //return *this;
+    return left;
+
+}*/
 
 BigInteger &BigInteger::operator+(BigInteger const &right) {
     if (sign == right.sign) {
@@ -97,11 +149,11 @@ BigInteger &BigInteger::operator+(BigInteger const &right) {
     vector<unsigned> a = digits;
     vector<unsigned> b = right.digits;
     for (int l = 0; l < a.size(); ++l) {
-        cout<<a[l];
+        cout << a[l];
     }
     cout << endl;
     for (int l = 0; l < b.size(); ++l) {
-        cout<<b[l];
+        cout << b[l];
     }
     cout << endl;
     //fill the less number to equal numbers length
@@ -138,7 +190,7 @@ BigInteger &BigInteger::operator+(BigInteger const &right) {
 
 }
 
-BigInteger &BigInteger::operator-(BigInteger const &right) {
+BigInteger& BigInteger::operator-(BigInteger const &right) {
     std::vector<unsigned> a = digits;
     std::vector<unsigned> b = right.digits;
     //fill the less number to equal numbers length
@@ -177,18 +229,17 @@ BigInteger &BigInteger::operator-(BigInteger const &right) {
 }
 
 //multiply two BigInteger "as in school"
-BigInteger &BigInteger::operator*(BigInteger const &right) {
+BigInteger& BigInteger::operator*(BigInteger const &right) {
     BigInteger left = *this;
     sign = (left.sign ^ right.sign);
-    for (int i = 0; i < digits.size(); ++i) {
+    for (unsigned i = 0; i < digits.size(); ++i) {
         digits[i] = 0;
     }
 
-    for (int i = 0; i < right.digits.size(); ++i) {
+    for (unsigned i = 0; i < right.digits.size(); ++i) {
         digits = add(digits, mul(left.digits, right.digits[i], i));
     }
     return *this;
-
 }
 
 
@@ -240,11 +291,13 @@ bool operator==(const BigInteger &left, const BigInteger &right) {
 }
 
 BigInteger &BigInteger::operator+=(BigInteger const &right) {
-    return *this+right;
+    return *this + right;
 }
+
 BigInteger &BigInteger::operator-=(BigInteger const &right) {
-    return *this-right;
+    return *this - right;
 }
+
 BigInteger &BigInteger::operator*=(BigInteger const &right) {
-    return *this*right;
+    return *this * right;
 }
